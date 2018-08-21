@@ -33,16 +33,8 @@ class App extends Component {
     this.setState({ persons: persons });
   }
 
-  render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1x solid blue',
-      padding: '8px',
-      cursor: 'pointer'      
-    }
-
+  render() {    
+    let btnClass = '';
     let persons = null;
     if (this.state.showPersons === true) {
       persons = (<div>
@@ -58,8 +50,8 @@ class App extends Component {
             )
           })
         }
-      </div>);
-      style.backgroundColor = 'red';
+      </div>);  
+      btnClass = classes.Red;    
     }
 
     let assignedClasses = [];
@@ -74,8 +66,7 @@ class App extends Component {
         <div className={classes.App}>
           <h1>GS1 Service Request app</h1>
           <p className={assignedClasses.join(' ')}>This is working</p>
-          <button
-            style={style}
+          <button className={btnClass}
             onClick={this.togglePersonsHandler}>Toggle</button>
           {persons}
         </div>
