@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -12,7 +13,7 @@ class App extends Component {
     showPersons: false
   }
 
-  
+
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(person => person.id === id);
     const person = { ...this.state.persons[personIndex] };
@@ -33,25 +34,28 @@ class App extends Component {
     this.setState({ persons: persons });
   }
 
-  render() {    
+  render() {
     let btnClass = '';
     let persons = null;
+    
     if (this.state.showPersons === true) {
       persons = (<div>
         {
           this.state.persons.map((person, index) => {
             return (
+              <ErrorBoundary key={person.id}>
               <Person
-                key={person.id}
+                
                 name={person.name}
                 age={person.age}
                 click={this.deletePersonHandler.bind(this, index)}
                 changed={(event) => this.nameChangedHandler(event, person.id)} />
+              </ErrorBoundary>
             )
           })
         }
-      </div>);  
-      btnClass = classes.Red;    
+      </div>);
+      btnClass = classes.Red;
     }
 
     let assignedClasses = [];
@@ -63,13 +67,13 @@ class App extends Component {
     }
 
     return (
-        <div className={classes.App}>
-          <h1>GS1 Service Request app</h1>
-          <p className={assignedClasses.join(' ')}>This is working</p>
-          <button className={btnClass}
-            onClick={this.togglePersonsHandler}>Toggle</button>
-          {persons}
-        </div>
+      <div className={classes.App}>
+        <h1>GS1 Service Request app</h1>
+        <p className={assignedClasses.join(' ')}>This is working</p>
+        <button className={btnClass}
+          onClick={this.togglePersonsHandler}>Toggle</button>
+        {persons}
+      </div>
     );
   }
 }
